@@ -57,7 +57,8 @@ def regularized_least_squares(x_train, y_train, M, regularization_lambda):
     a err blad sredniokwadratowy dopasowania
     '''
     matrix = design_matrix(x_train, M).squeeze()
-    w = np.linalg.inv(matrix.transpose() @ matrix + regularization_lambda * np.eye(np.shape(matrix)[0])) @ matrix.transpose() @ y_train
+    w = np.linalg.inv(
+        matrix.transpose() @ matrix + regularization_lambda * np.eye(matrix.shape[1])) @ matrix.transpose() @ y_train
     return w, mean_squared_error(x_train, y_train, w)
 
 
@@ -72,7 +73,13 @@ def model_selection(x_train, y_train, x_val, y_val, M_values):
     tj. daje najmniejszy blad na ciagu walidacyjnym, train_err i val_err to bledy na sredniokwadratowe na ciagach treningowym
     i walidacyjnym
     '''
-    pass
+    min = (np.inf, 0, 0)
+    for M in M_values:
+        (w, train_err) = least_squares(x_train, y_train, M)
+        val_err = mean_squared_error(x_val, y_val, w)
+        if mean_squared_error(x_val, y_val, w) < min[0]:
+            min = (w, train_err, val_err)
+    return min
 
 
 def regularized_model_selection(x_train, y_train, x_val, y_val, M, lambda_values):
