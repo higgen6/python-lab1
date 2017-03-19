@@ -17,7 +17,12 @@ def mean_squared_error(x, y, w):
     :return: blad sredniokwadratowy pomiedzy wyjsciami y
     oraz wyjsciami uzyskanymi z wielowamiu o parametrach w dla wejsc x
     '''
-    pass
+    sum = 0
+    N = x.shape[0]
+    for i in range(N):
+        sum += ((y[i] - polynomial(x, w)[i]) ** 2)
+    return sum / N
+
 
 
 def design_matrix(x_train,M):
