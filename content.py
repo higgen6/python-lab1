@@ -74,11 +74,11 @@ def model_selection(x_train, y_train, x_val, y_val, M_values):
     tj. daje najmniejszy blad na ciagu walidacyjnym, train_err i val_err to bledy na sredniokwadratowe na ciagach treningowym
     i walidacyjnym
     '''
-    min = (np.inf, 0, 0)
+    min = (0, 0, np.inf)
     for M in M_values:
         (w, train_err) = least_squares(x_train, y_train, M)
         val_err = mean_squared_error(x_val, y_val, w)
-        if mean_squared_error(x_val, y_val, w) < min[0]:
+        if val_err < min[2]:
             min = (w, train_err, val_err)
     return min
 
