@@ -32,7 +32,7 @@ def design_matrix(x_train, M):
     :param M: stopien wielomianu 0,1,2,...
     :return: funkcja wylicza Design Matrix Nx(M+1) dla wielomianu rzedu M
     '''
-    return np.transpose([x_train ** i for i in range(M + 1)]).squeeze()
+    return np.transpose([x_train ** i for i in range(M + 1)])[0]
 
 
 def least_squares(x_train, y_train, M):
