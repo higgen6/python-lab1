@@ -95,4 +95,10 @@ def regularized_model_selection(x_train, y_train, x_val, y_val, M, lambda_values
     tj. daje najmniejszy blad na ciagu walidacyjnym. Wielomian dopasowany jest wg kryterium z regularyzacja. train_err i val_err to
     bledy na sredniokwadratowe na ciagach treningowym i walidacyjnym. regularization_lambda to najlepsza wartosc parametru regularyzacji
     '''
-    pass
+    min = (0, 0, np.inf, 0)
+    for regularization_lambda in lambda_values:
+        (w, train_err) = regularized_least_squares(x_train, y_train, M, regularization_lambda)
+        val_err = mean_squared_error(x_val, y_val, w)
+        if val_err < min[2]:
+            min = (w, train_err, val_err, regularization_lambda)
+    return min
