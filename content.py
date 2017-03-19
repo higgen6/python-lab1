@@ -9,6 +9,7 @@
 import numpy as np
 from utils import polynomial
 
+
 def mean_squared_error(x, y, w):
     '''
     :param x: ciag wejsciowy Nx1
@@ -24,14 +25,13 @@ def mean_squared_error(x, y, w):
     return sum / N
 
 
-
-def design_matrix(x_train,M):
+def design_matrix(x_train, M):
     '''
     :param x_train: ciag treningowy Nx1
     :param M: stopien wielomianu 0,1,2,...
     :return: funkcja wylicza Design Matrix Nx(M+1) dla wielomianu rzedu M
     '''
-    pass
+    return np.array([x_train ** i for i in range(M + 1)]).transpose()
 
 
 def least_squares(x_train, y_train, M):
