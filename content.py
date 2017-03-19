@@ -43,7 +43,7 @@ def least_squares(x_train, y_train, M):
     dopasowania
     '''
     matrix = design_matrix(x_train, M).squeeze()
-    w = np.linalg.inv((matrix.transpose() @ matrix)) @ matrix.transpose() @ y_train
+    w = np.linalg.inv(matrix.transpose() @ matrix) @ matrix.transpose() @ y_train
     return w, mean_squared_error(x_train, y_train, w)
 
 
@@ -56,7 +56,9 @@ def regularized_least_squares(x_train, y_train, M, regularization_lambda):
     :return: funkcja zwraca krotke (w,err), gdzie w sa parametrami dopasowanego wielomianu zgodnie z kryterium z regularyzacja l2,
     a err blad sredniokwadratowy dopasowania
     '''
-    pass
+    matrix = design_matrix(x_train, M).squeeze()
+    w = np.linalg.inv(matrix.transpose() @ matrix + regularization_lambda * np.eye(np.shape(matrix)[0])) @ matrix.transpose() @ y_train
+    return w, mean_squared_error(x_train, y_train, w)
 
 
 def model_selection(x_train, y_train, x_val, y_val, M_values):
