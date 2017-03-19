@@ -20,8 +20,9 @@ def mean_squared_error(x, y, w):
     '''
     sum = 0
     N = x.shape[0]
-    for i in range(N):
-        sum += ((y[i] - polynomial(x, w)[i]) ** 2)
+    _y = polynomial(x, w)
+    for n in range(N):
+        sum += ((y[n][0] - _y[n][0]) ** 2)
     return sum / N
 
 
@@ -31,7 +32,7 @@ def design_matrix(x_train, M):
     :param M: stopien wielomianu 0,1,2,...
     :return: funkcja wylicza Design Matrix Nx(M+1) dla wielomianu rzedu M
     '''
-    return np.transpose([x_train ** i for i in range(M + 1)])
+    return np.transpose([x_train ** i for i in range(M + 1)]).squeeze()
 
 
 def least_squares(x_train, y_train, M):
@@ -42,7 +43,7 @@ def least_squares(x_train, y_train, M):
     :return: funkcja zwraca krotke (w,err), gdzie w sa parametrami dopasowanego wielomianu, a err blad sredniokwadratowy
     dopasowania
     '''
-    matrix = design_matrix(x_train, M).squeeze()
+    matrix = design_matrix(x_train, M)
     w = np.linalg.inv(matrix.transpose() @ matrix) @ matrix.transpose() @ y_train
     return w, mean_squared_error(x_train, y_train, w)
 
